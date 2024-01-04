@@ -569,8 +569,9 @@ insert into child3(id, c1, c2, p_id) values(2, 'bbb', 'bbb', 2);
 insert into child3(id, c1, c2, p_id) values(3, 'ccc', 'ccc', 3); 
 insert into child3(id, c1, c2, p_id) values(4, 'ddd', 'ddd', 5);
 
-
-
+-- 수정쿼리
+update child3 set c1 = '수정내용' where id=2;
+update child3 set c1 = '수정내용' , c2 = "ㅎㅎㅎ" where id=3;
 
 
 
