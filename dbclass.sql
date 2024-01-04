@@ -490,6 +490,7 @@ select * from parent1;
 insert into parent1(id, p1, p2) values(1, 'aa', 'aa');
 insert into parent1(id, p1, p2) values(2, 'bb', 'bb');
 insert into parent1(id, p1, p2) values(3, 'cc', 'cc');
+insert into parent1(id, p1, p2) values(4, 'dd', 'dd');
 
 select * from child1;
 insert into child1(id, c1, c2, p_id) values(1, 'aaa', 'aaa', 1);
@@ -497,8 +498,14 @@ insert into child1(id, c1, c2, p_id) values(1, 'aaa', 'aaa', 1);
 insert into child1(id, c1, c2, p_id) values(2, 'bbb', 'bbb', 2); 
 insert into child1(id, c1, c2, p_id) values(3, 'ccc', 'ccc', 3); 
 
-
-
+-- 부모테이블의 데이터 삭제
+-- id=2인 데이터 한 줄을 삭제
+-- 자식테이블에 id=2인 데이터를 참조하는 부분이 있기 때문에 삭제 불가
+delete from parent1 where id=2; 
+-- 자식테이블에 id=4인 데이터를 참조하는 부분이 없기 때문에 삭제 가능
+delete from parent1 where id=4;
+-- 자식테이블의 부모 id=2를 참조하는 데이터 삭제
+delete from child1 where id=2;
 
 
 
