@@ -507,5 +507,72 @@ delete from parent1 where id=4;
 -- 자식테이블의 부모 id=2를 참조하는 데이터 삭제
 delete from child1 where id=2;
 
+-- 부모테이블의 데이터 삭제_자식테이블의 데이터도 함께 삭제
+drop table if exists parent2;
+create table parent2(
+	id bigint primary key,
+    p1 varchar(10),
+    p2 varchar(20)
+);
+
+drop table if exists child2;
+create table child2(
+	id bigint primary key,
+    c1 varchar(10),
+    c2 varchar(20),
+    p_id bigint, -- 참조할 컬럼
+    -- 외래키 지정(p_id 컬럼을 parent1 테이블의 id 컬럼을 참조하도록 함)
+    -- 부모데이터 삭제시 자식데이터도 삭제 (on delete cascade)
+    constraint fk_child2 foreign key(p_id) references parent2(id) on delete cascade 
+);
+select * from parent2;
+insert into parent2(id, p1, p2) values(1, 'aa', 'aa');
+insert into parent2(id, p1, p2) values(2, 'bb', 'bb');
+insert into parent2(id, p1, p2) values(3, 'cc', 'cc');
+insert into parent2(id, p1, p2) values(4, 'dd', 'dd');
+
+select * from child2;
+insert into child2(id, c1, c2, p_id) values(1, 'aaa', 'aaa', 1);
+insert into child2(id, c1, c2, p_id) values(2, 'bbb', 'bbb', 2); 
+insert into child2(id, c1, c2, p_id) values(3, 'ccc', 'ccc', 3); 
+insert into child2(id, c1, c2, p_id) values(4, 'ddd', 'ddd', 5);
+
+delete from parent2 where id=3;
+
+drop table if exists parent3;
+create table parent3(
+	id bigint primary key,
+    p1 varchar(10),
+    p2 varchar(20)
+);
+
+drop table if exists child3;
+create table child3(
+	id bigint primary key,
+    c1 varchar(10),
+    c2 varchar(20),
+    p_id bigint, -- 참조할 컬럼
+    -- 외래키 지정(p_id 컬럼을 parent1 테이블의 id 컬럼을 참조하도록 함)
+    -- 부모데이터 삭제시 자식데이터는 유지되지만 참조 컬럼은 null이 됨
+    constraint fk_child3 foreign key(p_id) references parent3(id) on delete set null 
+);
+select * from parent3;
+insert into parent3(id, p1, p2) values(1, 'aa', 'aa');
+insert into parent3(id, p1, p2) values(2, 'bb', 'bb');
+insert into parent3(id, p1, p2) values(3, 'cc', 'cc');
+insert into parent3(id, p1, p2) values(4, 'dd', 'dd');
+delete from parent3 where id=1;
+
+select * from child3;
+insert into child3(id, c1, c2, p_id) values(1, 'aaa', 'aaa', 1);
+insert into child3(id, c1, c2, p_id) values(2, 'bbb', 'bbb', 2); 
+insert into child3(id, c1, c2, p_id) values(3, 'ccc', 'ccc', 3); 
+insert into child3(id, c1, c2, p_id) values(4, 'ddd', 'ddd', 5);
+
+
+
+
+
+
 
 
