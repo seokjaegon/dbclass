@@ -700,3 +700,30 @@ select * from orders_table where o_orderdate between str_to_date('2023-07-04', '
 select * from orders_table where not (o_orderdate >= str_to_date('2023-07-04', '%Y-%m-%d') and o_orderdate <= str_to_date('2023-07-07', '%Y-%m-%d'));
 select * from orders_table where o_orderdate < str_to_date('2023-07-04', '%Y-%m-%d') or o_orderdate > str_to_date('2023-07-07', '%Y-%m-%d');
 select * from orders_table where o_orderdate not between str_to_date('2023-07-04', '%Y-%m-%d') and str_to_date('2023-07-07', '%Y-%m-%d');
+
+-- 23. 고객, 주문 테이블 조인하여 고객번호 순으로 정렬
+select * from customer_table c, orders_table o where c.id = o.customer_id order by o.customer_id asc;
+-- 24. 고객이름(CUSTOMER), 고객이 주문한 도서 가격(ORDERS) 조회 
+select c.c_name as '고객이름', o.o_saleprice as '도서가격' from customer_table c, orders_table o where c.id = o.customer_id;
+-- 25. 고객별(GROUP)로 주문한 도서의 총 판매액(SUM)과 고객이름을 조회하고 조회 결과를 가나다 순으로 정렬 
+select o.customer_id, sum(o.o_saleprice), c.c_name from customer_table c, orders_table o 
+	where c.id = o.customer_id group by o.customer_id order by c.c_name asc;
+-- 26. 고객명과 고객이 주문한 도서명을 조회(3테이블 조인)
+select c.c_name, b.b_bookname from book_table b, customer_table c, orders_table o 
+	where c.id = o.customer_id and b.id = o.book_id;
+-- 27. 2만원(SALEPRICE) 이상 도서를 주문한 고객의 이름과 도서명을 조회 
+select c.c_name, b.b_bookname from book_table b, customer_table c, orders_table o 
+	where c.id = o.customer_id and b.id = o.book_id and o.o_saleprice >= 20000;
+-- 28. 손흥민 고객의 총 구매액과 고객명을 함께 조회
+select sum(o.o_saleprice), c.c_name from customer_table c, orders_table o 
+	where c.id = o.customer_id and o.customer_id = (select id from customer_table where c_name = '손흥민')
+		group by o.customer_id;
+-- 29. 손흥민 고객의 총 구매수량과 고객명을 함께 조회
+select count(o.customer_id), c.c_name from customer_table c, orders_table o 
+	where c.id = o.customer_id and o.customer_id = (select id from customer_table where c_name = '손흥민')
+		group by o.customer_id;
+
+
+
+
+
