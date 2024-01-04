@@ -716,12 +716,10 @@ select c.c_name, b.b_bookname from book_table b, customer_table c, orders_table 
 	where c.id = o.customer_id and b.id = o.book_id and o.o_saleprice >= 20000;
 -- 28. 손흥민 고객의 총 구매액과 고객명을 함께 조회
 select sum(o.o_saleprice), c.c_name from customer_table c, orders_table o 
-	where c.id = o.customer_id and o.customer_id = (select id from customer_table where c_name = '손흥민')
-		group by o.customer_id;
+	where c.id = o.customer_id and c.c_name = '손흥민';
 -- 29. 손흥민 고객의 총 구매수량과 고객명을 함께 조회
 select count(o.customer_id), c.c_name from customer_table c, orders_table o 
-	where c.id = o.customer_id and o.customer_id = (select id from customer_table where c_name = '손흥민')
-		group by o.customer_id;
+	where c.id = o.customer_id and c.c_name = '손흥민';
 
 
 
