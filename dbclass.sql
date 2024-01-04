@@ -469,6 +469,35 @@ select * from member8;
 insert into member8(member_email, member_password) values('aa@aa.com', '1234');
 insert into member8(member_email, member_password) values('bb@bb.com', '1234');
 
+-- 참조관계
+drop table if exists parent1;
+create table parent1(
+	id bigint primary key,
+    p1 varchar(10),
+    p2 varchar(20)
+);
+
+drop table if exists child1;
+create table child1(
+	id bigint primary key,
+    c1 varchar(10),
+    c2 varchar(20),
+    p_id bigint, -- 참조할 컬럼
+    -- 외래키 지정(p_id 컬럼을 parent1 테이블의 id 컬럼을 참조하도록 함)
+    constraint fk_child1 foreign key(p_id) references parent1(id)
+);
+select * from parent1;
+insert into parent1(id, p1, p2) values(1, 'aa', 'aa');
+insert into parent1(id, p1, p2) values(2, 'bb', 'bb');
+insert into parent1(id, p1, p2) values(3, 'cc', 'cc');
+
+select * from child1;
+insert into child1(id, c1, c2, p_id) values(1, 'aaa', 'aaa', 1);
+-- 부모 id 컬럼에 없는 값을 p_id에 저장
+insert into child1(id, c1, c2, p_id) values(2, 'bbb', 'bbb', 2); 
+insert into child1(id, c1, c2, p_id) values(3, 'ccc', 'ccc', 3); 
+
+
 
 
 
