@@ -748,7 +748,25 @@ select c.c_name, sum(o.o_saleprice) from orders_table o, customer_table c
 	where c.id = o.customer_id and c.c_name like "김%" group by c.c_name;
 select sum(o_saleprice) from orders_table where customer_id in (select id from customer where c_name like '김%');
 
-
+-- alter: 테이블의 구조를 변경할 때(컬럼이름 변경, 타입 변경, 컬럼삭제, 제약조건 추가 등)
+create table student(
+	id bigint,
+    s_name varchar(20),
+    s_mobile int
+);
+-- 테이블의 구조 확인
+desc student;
+desc book_table;
+-- 기존 컬럼에 제약조건 추가
+alter table student add constraint primary key(id);
+-- 기존 컬럼 타입 변경
+alter table student modify s_mobile varchar(30);
+-- 컬럼 추가
+alter table student add s_major varchar(30);
+-- 컬럼 이름 변경
+alter table student change s_mobile s_phone varchar(30);
+-- 컬럼 삭제
+alter table student drop s_major;
 
 
 
