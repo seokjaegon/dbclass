@@ -1209,5 +1209,21 @@ select
 			when v_confirm = 'N' then '미확인'
 	     end as '유권자확인'
 			from tbl_vote_202005;
-       
+
+-- 후보자 등수 조회
+-- 후보번호별 투표건수 조회
+select * from tbl_vote_202005;
+select count(m_no) from tbl_vote_202005 where v_confirm = 'Y' group by m_no;
+-- 후보번호, 후보이름 같이 조회
+select m.m_no as '후보번호', m.m_name as '성명', count(*) as '총투표건수' 
+    from tbl_member_202005 m, tbl_vote_202005 v
+		where m.m_no = v.m_no and v.v_confirm = 'Y'
+			group by m.m_no, m.m_name 
+					order by count(*) desc;
+
+
+
+
+
+
        
